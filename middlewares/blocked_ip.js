@@ -1,6 +1,6 @@
 const blocked_ip = (req, res, next) => {
    
-    const blockedIPs = [''] //192.168.1.13
+    const blockedIPs = ['192.168.1.13'] 
 
 
     const ip = req.socket.remoteAddres || req.ip
