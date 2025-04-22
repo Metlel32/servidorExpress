@@ -2,7 +2,18 @@
 import Product from "../../models/Product.js";
 let allProducts = async (req, res, next) => {
     try {
-        let all = await Product.find()
+
+
+        let {name, category} = req.query
+        let query = {}
+        if(name){
+            query.name = {$regex: name ,$options: 'i'}
+        }
+        if(category){
+            query.category = {$regex: category, $options: 'i'}
+        }
+        
+        let all = await Product.find(query)
         return res.status(200).json({
             response:all
         })

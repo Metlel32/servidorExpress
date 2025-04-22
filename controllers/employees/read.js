@@ -1,14 +1,29 @@
-import { request, response } from "express";
+
 import Employee from "../../models/Employee.js";
 
 let allEmployee = async (req, res, next) => {
+    
     try {
-        let all = await Employee.find()
+
+        let {name, isEmployed} = req.query
+        let query = {}
+        
+        if (name) {
+            console.log("entro", name);
+            query.name = {$regex: name ,$options: 'i'}
+        }
+
+        if (isEmployed) {
+            query.isEmployed = isEmployed
+        }
+
+
+        let all = await Employee.find(query)
         return res.status(200).json({
             response: all
         })
     } catch (error) {
-        rnext(error)
+        next(error)
     }
 }
 

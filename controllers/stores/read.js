@@ -2,12 +2,23 @@
 import Store from "../../models/Store.js";
 let allStores = async (req, res, next) => {
     try {
-        let all = await Store.find()
+
+        let {name, isActive} = req.nameQuery
+        let query = {}
+
+        if (name) {
+            query.name = {$regex: name, $options: 'i'}
+        }
+        if(isActive){
+            query.isActive = isActive
+        }
+
+        let all = await Store.find(query)
         return res.status(200).json({
             response: all
         })
     } catch (error) {
-        rnext(error)
+        next(error)
     }
 }
 
